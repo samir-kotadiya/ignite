@@ -1,0 +1,222 @@
+swagger: "2.0"
+info:
+  description: "ignite test"
+  version: 1.0.0
+  title: Swagger YAML
+  contact:
+    email: "test@gmail.com"
+basePath: /v1
+tags:
+  - name: book
+    description: book api
+schemes:
+  - http
+servers:
+  - url: http://localhost:3000
+    description: local server (uses live data)
+paths:
+  /book:
+    get:
+      tags:
+        - book
+      summary: get book list
+      description: ""
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: start_index
+          type: number
+          description: offset number for next page e.g. 21
+          required: false
+        - in: query
+          name: term
+          type: string
+          description: search term e.g. test
+          required: false
+        - in: query
+          name: book_id
+          type: string
+          description: comma separted id e.g 23,55
+          required: false
+        - in: query
+          name: title
+          type: string
+          description: book title e.g test
+          required: false
+        - in: query
+          name: language
+          type: string
+          description: language code e.g en,el
+          required: false
+        - in: query
+          name: topic
+          type: string
+          description: search topic on subject and book self e.g child
+          required: false
+        - in: query
+          name: author
+          type: string
+          description: author e.g test
+          required: false
+        - in: query
+          name: mime_type
+          type: string
+          description: mime_type e.g application/zip
+          required: false
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/book"
+        "400":
+          description: Invalid status value
+        "500":
+          description: Internal error
+
+definitions:
+  book:
+    properties:
+      id:
+        type: integer
+        format: int32
+      download_count:
+        type: integer
+        format: int32
+      gutenberg_id:
+        type: integer
+        format: int32
+      title:
+        type: string
+      book_author:
+        $ref: "#/definitions/book_author"
+      book_subject:
+        $ref: "#/definitions/book_subject"
+      book_language:
+        $ref: "#/definitions/book_language"
+      book_bookshelve:
+        $ref: "#/definitions/book_bookshelve"
+      downloads:
+        $ref: "#/definitions/downloads"
+
+  book_author:
+    properties:
+      id:
+        type: integer
+        format: int32
+      book_id:
+        type: integer
+        format: int32
+      author_id:
+        type: integer
+        format: int32
+      author:
+        $ref: "#/definitions/author"
+
+  author:
+    properties:
+      id:
+        type: integer
+        format: int32
+      birth_year:
+        type: integer
+        format: int32
+      death_year:
+        type: integer
+        format: int32
+      name:
+        type: string
+
+  book_subject:
+    properties:
+      id:
+        type: integer
+        format: int32
+      book_id:
+        type: integer
+        format: int32
+      subject_id:
+        type: integer
+        format: int32
+      subject:
+        $ref: "#/definitions/subject"
+      name:
+        type: string
+
+  subject:
+    properties:
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+
+  book_language:
+    properties:
+      id:
+        type: integer
+        format: int32
+      book_id:
+        type: integer
+        format: int32
+      language_id:
+        type: integer
+        format: int32
+      language:
+        $ref: "#/definitions/language"
+
+  language:
+    properties:
+      id:
+        type: integer
+        format: int32
+      code:
+        type: string
+
+  book_bookshelve:
+    properties:
+      id:
+        type: integer
+        format: int32
+      book_id:
+        type: integer
+        format: int32
+      bookshelf_id:
+        type: integer
+        format: int32
+      bookshelf:
+        $ref: "#/definitions/bookshelf"
+
+  bookshelf:
+    properties:
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+
+  downloads:
+    properties:
+      id:
+        type: integer
+        format: int32
+      mime_type:
+        type: string
+      url:
+        type: string
+
+  ApiResponse:
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string
+    xml:
+      name: "##default"
